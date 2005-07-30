@@ -299,50 +299,6 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	}
 
 	/**
-	 * Writes localized labels into their corresponding template markers.
-	 * 
-	 * Example: For the $markerName 'company', the localized string with the key 'label_company'
-	 * is written into the marker with the key '###LABEL_COMPANY###'.
-	 * 
-	 * @param	String		label name (see example), may also be an array of Strings
-	 * 
-	 * @access	protected
-	 */
-	function setLabels($markerName) {
-		if (is_array($markerName)) {
-			foreach ($markerName as $currentMarkerName) {
-				$this->setLabels($currentMarkerName);
-			}
-		} else {
-			$this->setMarkerContent($markerName, $this->pi_getLL('label_'.$markerName), 'label');
-		}
-		
-		return;
-	}
-
-	/**
-	 * Sets the CSS classes from TS for the template in $this->markers.
-	 * 
-	 * Classes are set only if they are set via TS, else the marker will be an empty string.
-	 * 
-	 * @param	array		array of Strings, list of TS setup variable names (without the prefix 'class') that contain the actual class names
-	 * 
-	 * @access	private
-	 */
-	function setCSS($setupNames) {
-		foreach ($setupNames as $currentSetupName) {
-			$className = isset($this->conf['class'.$currentSetupName]) ? ($this->conf['class'.$currentSetupName]) : '';
-			if (!empty($className)) {
-				$this->setMarkerContent($currentSetupName, $this->pi_classParam($className), 'class');
-			} else {
-				$this->setMarkerContent($currentSetupName, '', 'class');
-			}
-		}
-
-		return; 
-	}
-
-	/**
 	 * Creates a regular expression that searches strings of comma-separated ZIP prefixes
 	 * for the entered ZIP code.
 	 * 
