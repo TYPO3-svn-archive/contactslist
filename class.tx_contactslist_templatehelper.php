@@ -36,7 +36,7 @@
 require_once(PATH_tslib.'class.tslib_pibase.php');
 
 class tx_contactslist_templatehelper extends tslib_pibase {
-	/** the HTML template subparts, using the marker name without ### as keys (e.g. 'MY_MARKER') */
+	/** all HTML template subparts, using the marker name without ### as keys (e.g. 'MY_MARKER') */
 	var $templateCache = array();
 
 	/** list of subpart names that shouldn't be displayed in the detailed view;
@@ -79,7 +79,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	}
 	
 	/**
-	 * Finds the subparts within a template.
+	 * Finds all subparts within a template.
 	 * The subparts must be within HTML comments.
 	 * 
 	 * @param	String		the whole template file as a string

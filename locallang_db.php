@@ -5,8 +5,8 @@
  * This file is detected by the translation tool.
  */
 
-$LOCAL_LANG = Array (
-	'default' => Array (
+$LOCAL_LANG = Array(
+	'default' => Array(
 		'tx_contactslist_contacts' => 'Contacts',
 		'tx_contactslist_contacts.company' => 'Company',
 		'tx_contactslist_contacts.contactperson' => 'Contact person',
@@ -23,9 +23,9 @@ $LOCAL_LANG = Array (
 		'tx_contactslist_contacts.zipprefixes' => 'ZIP code prefixes (separated by spaces or commata)',
 		'tt_content.list_type_pi1' => 'Contacts List',
 	),
-	'dk' => Array (
+	'dk' => Array(
 	),
-	'de' => Array (
+	'de' => Array(
 		'tx_contactslist_contacts' => 'Kontakte',
 		'tx_contactslist_contacts.company' => 'Firma',
 		'tx_contactslist_contacts.contactperson' => 'Ansprechpartner',
@@ -42,11 +42,11 @@ $LOCAL_LANG = Array (
 		'tx_contactslist_contacts.zipprefixes' => 'PLZ-Präfixe (durch Leerzeichen oder Kommata getrennt)',
 		'tt_content.list_type_pi1' => 'Kontaktliste',
 	),
-	'no' => Array (
+	'no' => Array(
 	),
-	'it' => Array (
+	'it' => Array(
 	),
-	'fr' => Array (
+	'fr' => Array(
 		'tx_contactslist_contacts' => 'Contacts',
 		'tx_contactslist_contacts.company' => 'Firme',
 		'tx_contactslist_contacts.contactperson' => 'Contact',
@@ -63,79 +63,79 @@ $LOCAL_LANG = Array (
 		'tx_contactslist_contacts.zipprefixes' => 'Prefixes pour les codes postales (separés par des spaces ou commas)',
 		'tt_content.list_type_pi1' => 'Liste de contacts',
 	),
-	'es' => Array (
+	'es' => Array(
 	),
-	'nl' => Array (
+	'nl' => Array(
 	),
-	'cz' => Array (
+	'cz' => Array(
 	),
-	'pl' => Array (
+	'pl' => Array(
 	),
-	'si' => Array (
+	'si' => Array(
 	),
-	'fi' => Array (
+	'fi' => Array(
 	),
-	'tr' => Array (
+	'tr' => Array(
 	),
-	'se' => Array (
+	'se' => Array(
 	),
-	'pt' => Array (
+	'pt' => Array(
 	),
-	'ru' => Array (
+	'ru' => Array(
 	),
-	'ro' => Array (
+	'ro' => Array(
 	),
-	'ch' => Array (
+	'ch' => Array(
 	),
-	'sk' => Array (
+	'sk' => Array(
 	),
-	'lt' => Array (
+	'lt' => Array(
 	),
-	'is' => Array (
+	'is' => Array(
 	),
-	'hr' => Array (
+	'hr' => Array(
 	),
-	'hu' => Array (
+	'hu' => Array(
 	),
-	'gl' => Array (
+	'gl' => Array(
 	),
-	'th' => Array (
+	'th' => Array(
 	),
-	'gr' => Array (
+	'gr' => Array(
 	),
-	'hk' => Array (
+	'hk' => Array(
 	),
-	'eu' => Array (
+	'eu' => Array(
 	),
-	'bg' => Array (
+	'bg' => Array(
 	),
-	'br' => Array (
+	'br' => Array(
 	),
-	'et' => Array (
+	'et' => Array(
 	),
-	'ar' => Array (
+	'ar' => Array(
 	),
-	'he' => Array (
+	'he' => Array(
 	),
-	'ua' => Array (
+	'ua' => Array(
 	),
-	'lv' => Array (
+	'lv' => Array(
 	),
-	'jp' => Array (
+	'jp' => Array(
 	),
-	'vn' => Array (
+	'vn' => Array(
 	),
-	'ca' => Array (
+	'ca' => Array(
 	),
-	'ba' => Array (
+	'ba' => Array(
 	),
-	'kr' => Array (
+	'kr' => Array(
 	),
-	'eo' => Array (
+	'eo' => Array(
 	),
-	'my' => Array (
+	'my' => Array(
 	),
-	'hi' => Array (
+	'hi' => Array(
 	),
 );
 ?>

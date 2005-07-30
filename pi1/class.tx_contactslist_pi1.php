@@ -54,9 +54,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 */
 	function main($content, $conf)	{
 		$this->conf = $conf;
-		// Setting the TypoScript passed to this function in $this->conf
 		$this->pi_setPiVarDefaults();
-		// Loading the LOCAL_LANG values
 		$this->pi_loadLL();
 		
 		// include CSS in header of page
@@ -101,15 +99,12 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		// The maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
 		$this->internal['maxPages']          = t3lib_div::intInRange($lConf['maxPages'],0,1000,2);
 		
-		$this->internal['searchFieldList']   = 'company,contactperson,address1,address2,zipcode,city,phone,fax,mobile,email,zipprefixes';
-		$this->internal['orderByList']       = 'uid,company,contactperson,address1,address2,zipcode,city,phone,fax,mobile,email,zipprefixes';
-
 		$sameCountry = ' AND country="'.$GLOBALS['TYPO3_DB']->quoteStr($this->getSelectedCountry(), 'tx_contactslist_contacts').'"';
 
 		$searchForZipCode = '';
 		
 		// Only search for ZIP prefixes if any ZIP code actually has been entered.
-		// Else, let's display the whole list.
+		// Else, let's display the full list.
 		if ($this->getEnteredZipCode()) {
 			$searchForZipCode = ' AND zipprefixes REGEXP "(^|,| )'.$this->getZipRegExp().'($|,| )"';
 		}
@@ -124,22 +119,14 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		// Remove fields from view
 		$this->readSubpartsToHide($this->conf['hideFields'], 'WRAPPER');
-
+		// XXX Do this automatically
 		$this->setCSS(array('H3', 'Table', 'Td1', 'Td2', 'InputCountry', 'InputZipCode', 'SubmitButton'));
 		
 		// Put the whole list together:
-		$fullTable = '';	// Clear var;
-
-		// Add the country drop-down
-		$fullTable .= $this->makeSearchbox();
-
-		// Adds the whole list
+		$fullTable = $this->makeSearchbox();
 		$fullTable .= $this->makelist($res);
-
-		// Adds the result browser:
 		$fullTable .= $this->makeResultBrowser();
 
-		// Returns the content from the plugin.
 		return $fullTable;
 	}
 
@@ -154,6 +141,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @access protected
 	 */
 	function makeSearchbox() {
+		// XXX Get label automatically
 		$this->setLabels(array('country', 'zipcode', 'submit', 'search'));
 		$this->setMarkerContent('INTRO', $this->pi_getLL('intro'));
 		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
@@ -177,7 +165,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * 
 	 * If no country is selected, an empty String is returned.
 	 * 
-	 * ToDo: Also return an empty string if there is no country with that code in the DB.
+	 * XXX: Also return an empty string if there is no country with that code in the DB.
 	 * 
 	 * @return	String		ISO alpha3 code of the selected country
 	 * 
@@ -237,30 +225,34 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 				$names[$countryName] = $this->substituteMarkerArrayCached('ITEM_COUNTRYSELECT');
 			}
 		
+		// sort by localized names
 		uksort($names, 'strcoll');
 		return implode('', $names);
 	}
 
 	/**
-	 * [Put your description here]
+	 * Creates a nice list of contacts.
+	 * 
+	 * @param	object	DB result containing the data items to be displayed
+	 * 
+	 * @return	string	HTML code containing the list
+	 * 
+	 * @access protected
 	 */
 	function makelist($res)	{
 		$items = array();
-		// Make list table rows
-		while($this->internal['currentRow'] = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+		
+		while($this->internal['currentRow'] = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$items[]=$this->makeListItem();
 		}
 	
-		$out = '<div'.$this->pi_classParam('listrow').'>
-			'.implode(chr(10), $items).'
-			</div>';
-		return $out;
+		return implode(chr(10), $items);
 	}
 	
 	/**
-	 * Creates the HTML output for one contact.
+	 * Creates the HTML output for a single contact.
 	 * 
-	 * @return	String	HTML output for one contact (shouldn't be empty)
+	 * @return	string	HTML output for one contact (shouldn't be empty)
 	 * 
 	 * @access	protected
 	 */
@@ -309,7 +301,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	function getZipRegExp() {
 		$enteredZipCode = $this->getEnteredZipCode();
 		if ($enteredZipCode !== $GLOBALS['TYPO3_DB']->quoteStr($enteredZipCode, 'tx_contactslist_contacts')) {
-			// If the string contains DB-dangerous strings, don't process it,
+			// If the string contains DB-dangerous strings, just don't process it,
 			// as the prefixing could destroy some DB escape strings.
 			$enteredZipCode = '';
 		}
