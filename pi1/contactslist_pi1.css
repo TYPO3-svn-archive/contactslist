@@ -1,0 +1,19 @@
+.tx-contactslist-pi1 select {
+	margin: 0 1em 0 .5em;
+	padding: 0;
+}
+
+.tx-contactslist-pi1 input {
+	margin: 0 .5em 0;
+	padding: 0;
+}
+
+.tx-contactslist-pi1 td {
+	margin: 0;
+	padding: 0 0 .1em;
+}
+
+td.tx-contactslist-pi1-rowHeading {
+	padding-right: 1em;
+	font-weight: bold;
+}

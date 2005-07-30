@@ -1,0 +1,26 @@
+plugin.tx_contactslist_pi1 {
+	# location of the template file
+	templateFile = EXT:contactslist/pi1/contactslist_pi1.tmpl
+	# location of the CSS file
+	cssFile = typo3conf/ext/contactslist/pi1/contactslist_pi1.css
+
+	# CSS classes for various HTML elements (leave empty to set no CSS class to reduce code size)
+	classH3    =
+	classTable =
+	classTd1   = rowHeading
+	classTd2   =
+	# CSS class for the country drop-down list (including the label)
+	classInputCountry =
+	# CSS class for the ZIP code input list (including the label)
+	classInputZipCode =
+	# CSS class for the submit button
+	classSubmitButton =
+	# ISO alpha3 code for the country that is selected by default
+	defaultCountry = DEU
+
+	# onchange attribute for the country select
+	onchangeCountryselect = onchange="javascript:this.form.submit();"
+
+	# Remove some fields from view
+	hideFields = country,zipprefixes,resultbrowser
+}
