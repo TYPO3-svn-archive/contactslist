@@ -46,8 +46,8 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	/** list of populated markers and their contents (with the keys being the marker names) */
 	var $markers = array();
 
-	/** list of the names of all markers of a template (this array is not associative) */
-	var $markerNames = array();
+	/** list of the names of all markers (and subparts) of a template */
+	var $markerNames;
 
 	/**
 	 * Dummy constructor: Does nothing.
@@ -73,6 +73,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 		/** the whole template file as a string */
 		$templateRawCode = $this->cObj->fileResource($this->getConfValue('templateFile'));
 		$this->markerNames = $this->findMarkers($templateRawCode);
+
 		$subpartNames = $this->findSubparts($templateRawCode);
 		
 		foreach ($subpartNames as $currentSubpartName) {
@@ -100,20 +101,26 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	}
 	
 	/**
-	 * Finds all markes within a template.
-	 * The last two non-space characters before the marker must not be hyphens. 
+	 * Finds all markers within a template.
+	 * Note: This also finds subpart names.
+	 * 
+	 * The result is one long string that is easy to process using regular expressions.
+	 * 
+	 * Example: If the markers ###FOO### and ###BAR### are found, the string "#FOO#BAR#" would be returned. 
 	 * 
 	 * @param	String		the whole template file as a string
 	 * 
-	 * @return	array		a list of the marker names (uppercase, without ###, e.g. 'MY_SUBPART')
+	 * @return	String		a list of markes as one long string, separated, prefixed and postfixed by '#'
 	 * 
-	 * @access	protected 
+	 * @access	private 
 	 */
 	function findMarkers($templateRawCode) {
 		$matches = array();
-		preg_match_all('/[^-][^-] *(###)([^#]+)(###)/', $templateRawCode, $matches);
+		preg_match_all('/(###)([^#]+)(###)/', $templateRawCode, $matches);
 		
-		return array_unique($matches[2]);
+		$markerNames = array_unique($matches[2]);
+		
+		return '#'.implode('#', $markerNames).'#';
 	}
 	
 	/**
@@ -191,9 +198,9 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 2. for the other subparts, the subpart marker comments will be removed
 	 * 3. markes are replaced with their corresponding contents.
 	 * 
-	 * @param	string		key of the subpart from $this->templateCache, e.g. 'LIST_ITEM' (without the ###) 
+	 * @param	String		key of the subpart from $this->templateCache, e.g. 'LIST_ITEM' (without the ###) 
 	 * 
-	 * @return	string		content stream with the markers replaced
+	 * @return	String		content stream with the markers replaced
 	 * 
 	 * @access	protected
 	 */
@@ -258,8 +265,8 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * from TS setup is returned. If there is no field with that name in TS setup,
 	 * an empty string is returned.
 	 * 
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
+	 * @param	String		field name to extract
+	 * @param	String		sheet pointer, eg. "sDEF"
 	 * 
 	 * @return	String		the value of the corresponding flexforms or TS setup entry (may be empty)
 	 * 
