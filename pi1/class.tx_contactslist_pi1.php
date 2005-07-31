@@ -58,7 +58,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->pi_loadLL();
 		
 		// include CSS in header of page
-		$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css" media="screen">@import "'.$this->conf['cssFile'].'";</style>';
+		$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css" media="screen">@import "'.$this->getConfValue('cssFile').'";</style>';
 
 		$this->getTemplateCode();
 		
@@ -118,7 +118,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->internal['currentTable'] = 'tx_contactslist_contacts';
 
 		// Remove fields from view
-		$this->readSubpartsToHide($this->conf['hideFields'], 'WRAPPER');
+		$this->readSubpartsToHide($this->getConfValue('hideFields'), 'WRAPPER');
 		// XXX Do this automatically
 		$this->setCSS(array('H3', 'Table', 'Td1', 'Td2', 'InputCountry', 'InputZipCode', 'SubmitButton'));
 		
@@ -147,7 +147,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
 		
 		$this->setMarkerContent('NAME_COUNTRYSELECT', $this->prefixId.'[country]');
-		$this->setMarkerContent('ONCHANGE_COUNTRYSELECT', !empty($this->conf['onchangeCountryselect']) ? $this->conf['onchangeCountryselect'] : '');
+		$this->setMarkerContent('ONCHANGE_COUNTRYSELECT', $this->getConfValue('onchangeCountryselect'));
 		$this->setMarkerContent('OPTIONS_COUNTRYSELECT', $this->makeCountryItems($this->getSelectedCountry()));
 		
 		
@@ -174,7 +174,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @access	public
 	 */
 	function getSelectedCountry() {
-		$resultRaw = isset($this->piVars['country']) ? $this->piVars['country'] : $this->conf['defaultCountry'];
+		$resultRaw = isset($this->piVars['country']) ? $this->piVars['country'] : $this->getConfValue('defaultCountry');
 		$resultQuoted = strtoupper($GLOBALS['TYPO3_DB']->quoteStr($resultRaw, 'static_countries'));
 
 		// Get number of records

@@ -60,7 +60,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * Retrieves all subparts from the plugin template and write them to $this->templateCache.
 	 * 
 	 * The subpart names are automatically retrieved from the template file set in $this->conf['templateFile']
-	 * and are used as array keys. For this, the ### are removed, but the names stay uppercase.
+	 * (or via flexforms) and are used as array keys. For this, the ### are removed, but the names stay uppercase.
 	 * 
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key 'MY_SUBPART'.
 	 * 
@@ -68,7 +68,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 */
 	function getTemplateCode() {
 		/** the whole template file as a string */
-		$templateRawCode = $this->cObj->fileResource($this->conf['templateFile']);
+		$templateRawCode = $this->cObj->fileResource($this->getConfValue('templateFile'));
 		$subpartNames = $this->findSubparts($templateRawCode);
 		
 		foreach ($subpartNames as $currentSubpartName) {
@@ -220,7 +220,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 */
 	function setCSS($setupNames) {
 		foreach ($setupNames as $currentSetupName) {
-			$className = isset($this->conf['class'.$currentSetupName]) ? ($this->conf['class'.$currentSetupName]) : '';
+			$className = $this->getConfValue('class'.$currentSetupName);
 			if (!empty($className)) {
 				$this->setMarkerContent($currentSetupName, $this->pi_classParam($className), 'class');
 			} else {
@@ -229,6 +229,26 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 		}
 
 		return; 
+	}
+
+	/**
+	 * Gets a value from flexforms or TS setup.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is returned. If there is no field with that name in TS setup,
+	 * an empty string is returned.
+	 * 
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 * 
+	 * @return	String		the value of the corresponding flexforms or TS setup entry (may be empty)
+	 * 
+	 * @access protected
+	 */
+	function getConfValue($fieldName, $sheet = 'sDEF') {
+		$flexformsValue = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $fieldName, $sheet);
+		$confValue = isset($this->conf[$fieldName]) ? $this->conf[$fieldName] : ''; 
+
+		return ($flexformsValue) ? $flexformsValue : $confValue;  
 	}
 }
 
