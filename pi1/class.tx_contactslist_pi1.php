@@ -99,7 +99,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		// The maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
 		$this->internal['maxPages']          = t3lib_div::intInRange($lConf['maxPages'],0,1000,2);
 		
-		$sameCountry = ' AND country="'.$GLOBALS['TYPO3_DB']->quoteStr($this->getSelectedCountry(), 'tx_contactslist_contacts').'"';
+		$sameCountry = ' AND country="'.$this->getSelectedCountry().'"';
 
 		$searchForZipCode = '';
 		
@@ -160,21 +160,31 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	}
 
 	/**
-	 * Gets the selected country - either from $this->piVars or, if there is nothing set,
+	 * Gets the code for the selected country - either from $this->piVars or, if there is nothing set,
 	 * from the TS setup.
 	 * 
 	 * If no country is selected, an empty String is returned.
 	 * 
-	 * XXX: Also return an empty string if there is no country with that code in the DB.
+	 * Also an empty string is returned if there is no country with that code in the list of countries in the DB.
+	 * 
+	 * The return value is quoted (although that shouldn't be necessary anyway).-
 	 * 
 	 * @return	String		ISO alpha3 code of the selected country
 	 * 
 	 * @access	public
 	 */
 	function getSelectedCountry() {
-		$result = isset($this->piVars['country']) ? $this->piVars['country'] : $this->conf['defaultCountry'];
+		$resultRaw = isset($this->piVars['country']) ? $this->piVars['country'] : $this->conf['defaultCountry'];
+		$resultQuoted = strtoupper($GLOBALS['TYPO3_DB']->quoteStr($resultRaw, 'static_countries'));
+
+		// Get number of records
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('COUNT(*) AS num', 'static_countries', 'cn_iso_3="'.$resultQuoted.'"');
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		
-		return strtoupper($result);
+		// Only use the result if there is a DB entry for it
+		$result = ($row['num']) ? $resultQuoted : '';
+		
+		return $result;
 	}
 
 	/**
