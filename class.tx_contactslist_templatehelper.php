@@ -67,6 +67,8 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key 'MY_SUBPART'.
 	 * 
+	 * Please note that each subpart may only occur once in the template file.
+	 * 
 	 * @access protected
 	 */
 	function getTemplateCode() {
