@@ -112,7 +112,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * @return	String		a list of markes as one long string, separated, prefixed and postfixed by '#'
 	 * 
-	 * @access	private 
+	 * @access private 
 	 */
 	function findMarkers($templateRawCode) {
 		$matches = array();
@@ -121,6 +121,30 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 		$markerNames = array_unique($matches[2]);
 		
 		return '#'.implode('#', $markerNames).'#';
+	}
+	
+	/**
+	 * Gets a list of markers with a given prefix.
+	 * Example: If the prefix is "WRAPPER" (or "wrapper", case is not relevant), the following array
+	 * might be returned: ("WRAPPER_FOO", "WRAPPER_BAR")
+	 * 
+	 * If there are no matches, an empty array is returned.
+	 * 
+	 * The functions <code>findMarkers</code> must be called before this function may be called.
+	 * 
+	 * @param	String	case-insensitive prefix for the marker names to look for
+	 * 
+	 * @return	array	Array of matching marker names
+	 * 
+	 * @access private
+	 */
+	function getPrefixedMarkers($prefix) {
+		$matches = array();
+		preg_match_all('/(#)('.strtoupper($prefix).'_[^#]*)#/', $this->markerNames, $matches);
+		
+		$result = array_unique($matches[2]);
+		
+		return $result;
 	}
 	
 	/**
@@ -216,22 +240,19 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	}
 
 	/**
-	 * Writes localized labels into their corresponding template markers.
-	 * 
-	 * Example: For the $markerName 'company', the localized string with the key 'label_company'
-	 * is written into the marker with the key '###LABEL_COMPANY###'.
-	 * 
-	 * @param	String		label name (see example), may also be an array of Strings
+	 * Writes all localized labels for the current template into their corresponding template markers.
+	 *
+	 * For this, the label markers in the template must be prefixed with "LABEL_" (e.g. "###LABEL_FOO###"),
+	 * and the corresponding localization entry must have the same key, but lowercased and without the ###
+	 * (e.g. "label_foo"). 
 	 * 
 	 * @access	protected
 	 */
-	function setLabels($markerName) {
-		if (is_array($markerName)) {
-			foreach ($markerName as $currentMarkerName) {
-				$this->setLabels($currentMarkerName);
-			}
-		} else {
-			$this->setMarkerContent($markerName, $this->pi_getLL('label_'.$markerName), 'label');
+	function setLabels() {
+		$labels = $this->getPrefixedMarkers('label');
+		
+		foreach ($labels as $currentLabel) {
+			$this->setMarkerContent($currentLabel, $this->pi_getLL(strtolower($currentLabel)));
 		}
 		
 		return;

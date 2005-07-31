@@ -61,6 +61,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css" media="screen">@import "'.$this->getConfValue('cssFile').'";</style>';
 
 		$this->getTemplateCode();
+		$this->setLabels();
 		
 		$this->staticInfo = t3lib_div::makeInstance('tx_srstaticinfo_pi1');
         $this->staticInfo->init();
@@ -141,8 +142,6 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @access protected
 	 */
 	function makeSearchbox() {
-		// XXX Get label automatically
-		$this->setLabels(array('country', 'zipcode', 'submit', 'search'));
 		$this->setMarkerContent('INTRO', $this->pi_getLL('intro'));
 		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
 		
@@ -274,7 +273,6 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 			$fieldContent = $this->getFieldContent($currentMarkerName);
 			if (!empty($fieldContent)) {
 				$this->setMarkerContent($currentMarkerName, $fieldContent);
-				$this->setLabels($currentMarkerName);
 			} else {
 				// If there is no data to display, just remove the empty line.
 				$this->readSubpartsToHide($currentMarkerName, 'wrapper');
