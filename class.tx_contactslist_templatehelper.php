@@ -259,25 +259,27 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	}
 
 	/**
-	 * Sets the CSS classes from TS for the template in $this->markers.
+	 * Sets the all CSS classes from TS for the template in $this->markers.
+	 * The list of needed CSS classes will be extracted from the template file.
 	 * 
 	 * Classes are set only if they are set via TS, else the marker will be an empty string.
 	 * 
-	 * @param	array		array of Strings, list of TS setup variable names (without the prefix 'class') that contain the actual class names
-	 * 
 	 * @access	protected
 	 */
-	function setCSS($setupNames) {
-		foreach ($setupNames as $currentSetupName) {
-			$className = $this->getConfValue('class'.$currentSetupName);
+	function setCSS() {
+		$cssEntries = $this->getPrefixedMarkers('class');
+		
+		foreach ($cssEntries as $currentCssEntry) {
+			$className = $this->getConfValue(strtolower($currentCssEntry));
+			
 			if (!empty($className)) {
-				$this->setMarkerContent($currentSetupName, $this->pi_classParam($className), 'class');
+				$this->setMarkerContent($currentCssEntry, $this->pi_classParam($className));
 			} else {
-				$this->setMarkerContent($currentSetupName, '', 'class');
+				$this->setMarkerContent($currentCssEntry, '');
 			}
 		}
-
-		return; 
+		
+		return;
 	}
 
 	/**

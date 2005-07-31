@@ -120,8 +120,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		// Remove fields from view
 		$this->readSubpartsToHide($this->getConfValue('hideFields'), 'WRAPPER');
-		// XXX Do this automatically
-		$this->setCSS(array('H3', 'Table', 'Td1', 'Td2', 'InputCountry', 'InputZipCode', 'SubmitButton'));
+		$this->setCSS();
 		
 		// Put the whole list together:
 		$fullTable = $this->makeSearchbox();

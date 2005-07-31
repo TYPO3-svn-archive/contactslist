@@ -5,16 +5,16 @@ plugin.tx_contactslist_pi1 {
 	cssFile = typo3conf/ext/contactslist/pi1/contactslist_pi1.css
 
 	# CSS classes for various HTML elements (leave empty to set no CSS class to reduce code size)
-	classH3    =
-	classTable =
-	classTd1   = rowHeading
-	classTd2   =
+	class_h3    =
+	class_table =
+	class_td1   = rowHeading
+	class_td2   =
 	# CSS class for the country drop-down list (including the label)
-	classInputCountry =
+	class_inputcountry =
 	# CSS class for the ZIP code input list (including the label)
-	classInputZipCode =
+	class_inputzipcode =
 	# CSS class for the submit button
-	classSubmitButton =
+	class_submitbutton =
 	# ISO alpha3 code for the country that is selected by default
 	defaultCountry = DEU
 
