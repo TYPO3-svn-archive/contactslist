@@ -43,8 +43,11 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	    set a subpart key like '###FIELD_DATE###' and the value to '' to remove that subpart */
 	var $subpartsToHide = array();
 	
-	/** list of markers and their contents (with the keys being the marker names) */
+	/** list of populated markers and their contents (with the keys being the marker names) */
 	var $markers = array();
+
+	/** list of the names of all markers of a template (this array is not associative) */
+	var $markerNames = array();
 
 	/**
 	 * Dummy constructor: Does nothing.
@@ -69,6 +72,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	function getTemplateCode() {
 		/** the whole template file as a string */
 		$templateRawCode = $this->cObj->fileResource($this->getConfValue('templateFile'));
+		$this->markerNames = $this->findMarkers($templateRawCode);
 		$subpartNames = $this->findSubparts($templateRawCode);
 		
 		foreach ($subpartNames as $currentSubpartName) {
@@ -91,6 +95,23 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	function findSubparts($templateRawCode) {
 		$matches = array();
 		preg_match_all('/<!-- *(###)([^#]+)(###)/', $templateRawCode, $matches);
+		
+		return array_unique($matches[2]);
+	}
+	
+	/**
+	 * Finds all markes within a template.
+	 * The last two non-space characters before the marker must not be hyphens. 
+	 * 
+	 * @param	String		the whole template file as a string
+	 * 
+	 * @return	array		a list of the marker names (uppercase, without ###, e.g. 'MY_SUBPART')
+	 * 
+	 * @access	protected 
+	 */
+	function findMarkers($templateRawCode) {
+		$matches = array();
+		preg_match_all('/[^-][^-] *(###)([^#]+)(###)/', $templateRawCode, $matches);
 		
 		return array_unique($matches[2]);
 	}
