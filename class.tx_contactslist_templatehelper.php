@@ -54,7 +54,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * Call $this->init() instead.
 	 * 
-	 * @access	public
+	 * @access public
 	 */
 	function tx_seminars_templatehelper() {
 	}
@@ -67,7 +67,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key 'MY_SUBPART'.
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function getTemplateCode() {
 		/** the whole template file as a string */
@@ -91,7 +91,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * @return	array		a list of the subpart names (uppercase, without ###, e.g. 'MY_SUBPART')
 	 * 
-	 * @access	protected 
+	 * @access protected 
 	 */
 	function findSubparts($templateRawCode) {
 		$matches = array();
@@ -160,7 +160,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * @param	String		the marker's content, may be empty
 	 * @param	String		prefix to the marker name (may be empty, case-insensitive, will get uppercased)
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function setMarkerContent($markerName, $content, $prefix = '') {
 		$this->markers[$this->createMarkerName($markerName, $prefix)] = $content;
@@ -182,7 +182,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * @param	String		comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
 	 * @param	String		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function readSubpartsToHide($subparts, $prefix = '') {
 		$subpartNames = explode(',', $subparts);
@@ -202,7 +202,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * If the prefix is empty and the marker name is "one", the result will be "###ONE###".
 	 * 
-	 * @access	private
+	 * @access private
 	 */
 	function createMarkerName($markerName, $prefix = '') {
 		// if a prefix is provided, uppercase it and separate it with an underscore
@@ -226,7 +226,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * @return	String		content stream with the markers replaced
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function substituteMarkerArrayCached($key) {
 		// remove subparts (lines) that will be hidden
@@ -246,7 +246,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * and the corresponding localization entry must have the same key, but lowercased and without the ###
 	 * (e.g. "label_foo"). 
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function setLabels() {
 		$labels = $this->getPrefixedMarkers('label');
@@ -264,7 +264,7 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 	 * 
 	 * Classes are set only if they are set via TS, else the marker will be an empty string.
 	 * 
-	 * @access	protected
+	 * @access protected
 	 */
 	function setCSS() {
 		$cssEntries = $this->getPrefixedMarkers('class');
