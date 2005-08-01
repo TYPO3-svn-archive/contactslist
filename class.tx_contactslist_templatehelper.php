@@ -272,16 +272,29 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 		$cssEntries = $this->getPrefixedMarkers('class');
 		
 		foreach ($cssEntries as $currentCssEntry) {
-			$className = $this->getConfValue(strtolower($currentCssEntry));
-			
-			if (!empty($className)) {
-				$this->setMarkerContent($currentCssEntry, $this->pi_classParam($className));
-			} else {
-				$this->setMarkerContent($currentCssEntry, '');
-			}
+			$this->setMarkerContent($currentCssEntry, $this->createClassAttribute($this->getConfValue(strtolower($currentCssEntry))));
 		}
 		
 		return;
+	}
+
+	/**
+	 * Creates an CSS class attribute. The parameter is the class name.
+	 * 
+	 * Example: If the parameter is 'foo', our extension is named 'bar' and we are in p1,
+	 * then the return value is 'class="tx-bar-pi1-foo"'.
+	 * 
+	 * If the parameter is an emtry string, the return value is an empty string as well
+	 * (not an attribute with an empty value).
+	 * 
+	 * @param	String	a CSS class name (may be empty)
+	 * 
+	 * @return	String	a CSS class attribute (may be empty)
+	 * 
+	 * @access protected
+	 */
+	function createClassAttribute($className) {
+		return !empty($className) ? $this->pi_classParam($className) : '';
 	}
 
 	/**
