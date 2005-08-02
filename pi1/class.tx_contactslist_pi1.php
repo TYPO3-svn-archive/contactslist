@@ -58,7 +58,9 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->pi_loadLL();
 		
 		// include CSS in header of page
-		$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css" media="screen">@import "'.$this->getConfValue('cssFile').'";</style>';
+		if ($this->getConfValue('cssFile') !== '') {
+			$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css">@import "'.$this->getConfValue('cssFile').'";</style>';
+		}
 
 		$this->getTemplateCode();
 		$this->setLabels();
