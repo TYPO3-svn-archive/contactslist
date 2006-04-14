@@ -1,0 +1,20 @@
+To-do list for the "contactslist" extension
+-------------------------------------------
+
+- remove the automatic submit-on-change for the drop-down list (for accessibility)
+- document accessibility
+- document that this extension follows the Typo3 coding standards
+- check that the CSS file doesn't allow for possibly unreadable color combinations
+- check for accessibility according to WAI A/AA/AAA, BITV NRW and Sec. 508
+- improve the french localization
+- mention that the Typo3 coding guidelines have been followed
+- mention that this extension creates valid XHTML
+- fix URLs : &amp; -> &, ?& -> ?, & -> &amp; (should probably be done in the salutation switcher)
+- test with PHP 5
+- documentation: mention sponsorship (payment)
+- use OElib
+- change to getConfValue*/hasConfValue*
+- test with TYPO3 4
+- convert language files to XML
+- move the setup to static
+- document the use of templates
