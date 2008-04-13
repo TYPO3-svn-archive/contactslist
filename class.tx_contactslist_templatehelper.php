@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005 Oliver Klee (typo3-coding@oliverklee.de)
+*  (c) 2005-2008 Oliver Klee (typo3-coding@oliverklee.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -21,6 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Class 'tx_contactslist_templatehelper' for the 'contactslist' extension
  * (the class is taken from the 'seminars' extension).
@@ -29,6 +30,9 @@
  * (in addition to all functionality provided by the base classes).
  *
  * This is an abstract class; don't instantiate it.
+ *
+ * @package		TYPO3
+ * @subpackage	tx_contactslist
  *
  * @author	Oliver Klee <typo-coding@oliverklee.de>
  */
@@ -321,3 +325,5 @@ class tx_contactslist_templatehelper extends tslib_pibase {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/contactslist/class.tx_contactslist_templatehelper.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/contactslist/class.tx_contactslist_templatehelper.php']);
 }
+
+?>
