@@ -1,6 +1,6 @@
 plugin.tx_contactslist_pi1 {
 	# location of the template file
-	templateFile = EXT:contactslist/pi1/contactslist_pi1.tmpl
+	templateFile = EXT:contactslist/pi1/contactslist_pi1.html
 
 	# CSS classes for various HTML elements (will be automatically prefixed with "tx-contactlist-pi1-"),leave empty to set no CSS class
 	class_h3    =
