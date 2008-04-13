@@ -1,8 +1,6 @@
 plugin.tx_contactslist_pi1 {
 	# location of the template file
 	templateFile = EXT:contactslist/pi1/contactslist_pi1.tmpl
-	# location of the CSS file (leave empty to include no CSS file)
-	cssFile = typo3conf/ext/contactslist/pi1/contactslist_pi1.css
 
 	# CSS classes for various HTML elements (will be automatically prefixed with "tx-contactlist-pi1-"),leave empty to set no CSS class
 	class_h3    =
@@ -23,4 +21,8 @@ plugin.tx_contactslist_pi1 {
 
 	# Remove some fields from view
 	hideFields = country,zipprefixes,resultbrowser
+}
+
+page.includeCSS {
+	tx_contactslist_pi1 = {$plugin.tx_contactslist_pi1.cssFile}
 }

@@ -55,7 +55,8 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * Displays the contacts list HTML.
 	 *
 	 * @param	string		(unused)
-	 * @param	array		TypoScript configuration for the plugin, may be empty
+	 * @param	array		TypoScript configuration for the plugin, may be
+	 * 						empty
 	 *
 	 * @return	string		HTML for the plugin, will not be empty
 	 */
@@ -65,7 +66,6 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 		$this->getTemplateCode();
 		$this->setLabels();
 		$this->setCSS();
-		$this->addCssToPageHeader();
 
 		$this->initStaticInfo();
 

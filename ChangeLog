@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1806] Change: Set the CSS file via constants
 - [#1804] Change: Use oelib
 - [#1805] Change: Use real visibility keywords and exceptions
 - [#1808] Change: Use static_info_tables instead of sr_static_info
