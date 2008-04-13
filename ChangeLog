@@ -1,3 +1,13 @@
 0.4.0 - currently working on
+- [#1803] Change: Move the setup to pi1/static
 - [#1810] Change: Code cleanup
 - [#1802] Change: Move the language files to XML
+
+0.3.0
+- The names of the TS setup entries for the CSS classes have changed. They're all lowercase now and have an underscore after “class”. Example: classTable -> class_table
+- Improved the manual.
+- Lots of changes "under the hood": Code cleanup and refactoring.
+- Added an extra safety check for input values.
+
+0.2.0
+- First public version.
