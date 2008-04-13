@@ -12,6 +12,8 @@ CREATE TABLE tx_contactslist_contacts (
 	hidden tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+
 	company tinytext,
 	contactperson tinytext,
 	address1 tinytext,

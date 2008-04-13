@@ -308,6 +308,13 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 			'homepage', 'email', 'zipprefixes'
 		);
 
+		// Makes sure all wanted subparts are visible to start with.
+		$this->unhideSubparts(
+			implode(',', $markerNames),
+			$this->getConfValueString('hideFields'),
+			'wrapper'
+		);
+
 		foreach ($markerNames as $currentMarkerName) {
 			$fieldContent = $this->getFieldContent($currentMarkerName);
 			if (!empty($fieldContent)) {

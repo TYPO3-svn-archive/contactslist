@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1786] Fix: On a search result, fields are shown only if all the previous search results have the field non empty
 - [#1072] Change: List the list view TS setup in the reference and use the correct getters
 - [#1807] Change: Make the HTML template viewable in a browser
 - [#1806] Change: Set the CSS file via constants
