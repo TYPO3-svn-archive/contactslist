@@ -23,6 +23,13 @@ plugin.tx_contactslist_pi1 {
 	hideFields = country,zipprefixes,resultbrowser
 }
 
+plugin.tx_contactslist_pi1.listView {
+	results_at_a_time = 10
+	maxPages = 5
+	orderBy = company
+	descFlag = 0
+}
+
 page.includeCSS {
 	tx_contactslist_pi1 = {$plugin.tx_contactslist_pi1.cssFile}
 }

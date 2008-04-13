@@ -83,29 +83,26 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the plugin, will not be empty
 	 */
 	private function listView()	{
-		/** local settings for the listView function */
-		$lConf = $this->conf['listView.'];
+		$this->internal['orderByList']
+			= 'company,contactperson,zipcode,city,country';
 
 		if (!isset($this->piVars['pointer'])) {
 			$this->piVars['pointer'] = 0;
 		}
-		if (!isset($this->piVars['mode'])) {
-			$this->piVars['mode'] = 1;
-		}
 
-		// initializes the query parameters
-		list($this->internal['orderBy'], $this->internal['descFlag'])
-			= explode(':', $this->piVars['sort']);
+		$this->internal['orderBy']
+			= $this->getListViewConfValueString('orderBy');
+		$this->internal['descFlag']
+			= $this->getListViewConfValueBoolean('descFlag');
 
-		// number of results to show in a listing
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
-			$lConf['results_at_a_time'], 0, 1000, 10
+			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 10
 		);
 
 		// The maximum number of "pages" in the browse-box: "Page 1", "Page 2"
 		// etc.
 		$this->internal['maxPages'] = t3lib_div::intInRange(
-			$lConf['maxPages'], 0, 1000, 2
+			$this->getListViewConfValueInteger('maxPages'), 0, 1000, 2
 		);
 
 		$sameCountry = ' AND country="'.$this->getSelectedCountry().'"';
@@ -293,7 +290,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 		while($this->internal['currentRow']
 			= $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resource)
 		) {
-			$items[]=$this->makeListItem();
+			$items[] = $this->makeListItem();
 		}
 
 		return implode(LF, $items);
