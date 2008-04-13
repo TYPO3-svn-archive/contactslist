@@ -37,18 +37,18 @@ require_once(t3lib_extMgm::extPath('static_info_tables').'pi1/class.tx_staticinf
 
 class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	/** same as class name */
-	var $prefixId = 'tx_contactslist_pi1';
+	public $prefixId = 'tx_contactslist_pi1';
 
 	/**  path to this script relative to the extension directory */
-	var $scriptRelPath = 'pi1/class.tx_contactslist_pi1.php';
+	public $scriptRelPath = 'pi1/class.tx_contactslist_pi1.php';
 
 	/** the extension key */
-	var $extKey = 'contactslist';
+	public $extKey = 'contactslist';
 
-	var $pi_checkCHash = true;
+	public $pi_checkCHash = true;
 
 	/** an instance of tx_staticinfotables_pi1 */
-	var $staticInfo = null;
+	private $staticInfo = null;
 
 	/**
 	 * Displays the contacts list HTML.
@@ -57,10 +57,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @param	array		TypoScript configuration for the plugin
 	 *
 	 * @return	string		HTML for the plugin, will not be empty
-	 *
-	 * @access public
 	 */
-	function main($unused, $conf) {
+	public function main($unused, $conf) {
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
@@ -89,10 +87,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * Displays a list of contacts.
 	 *
 	 * @return	string		HTML for the plugin, will not be empty
-	 *
-	 * @access protected
 	 */
-	function listView()	{
+	private function listView()	{
 		/** local settings for the listView function */
 		$lConf = $this->conf['listView.'];
 
@@ -161,11 +157,9 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * The form elements are already populated with the data given via GET (if
 	 * there is any).
 	 *
-	 * @return	String		HTML code for the search box
-	 *
-	 * @access protected
+	 * @return	string		HTML code for the search box, will not be empty
 	 */
-	function makeSearchbox() {
+	private function makeSearchbox() {
 		$this->setMarkerContent('INTRO', $this->pi_getLL('intro'));
 		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
 
@@ -197,11 +191,9 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 *
 	 * The return value is quoted (although that shouldn't be necessary anyway).
 	 *
-	 * @return	String		ISO alpha3 code of the selected country
-	 *
-	 * @access	public
+	 * @return	string		ISO alpha3 code of the selected country
 	 */
-	function getSelectedCountry() {
+	private function getSelectedCountry() {
 		$resultRaw = isset($this->piVars['country'])
 			? $this->piVars['country'] : $this->getConfValue('defaultCountry');
 		$resultQuoted = strtoupper(
@@ -227,10 +219,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * set, an empty string is returned
 	 *
 	 * @return	string		trimmed ZIP code from the input form, might be empty
-	 *
-	 * @access	public
 	 */
-	function getEnteredZipCode() {
+	private function getEnteredZipCode() {
 		$result = isset($this->piVars['zipcode'])
 			? $this->piVars['zipcode'] : '';
 
@@ -245,10 +235,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 *
 	 * @return	string		HTML code for the <option> elements (without the
 	 * 						<select>), will not be empty
-	 *
-	 * @access	private
 	 */
-	function makeCountryItems($selectedCountry) {
+	private function makeCountryItems($selectedCountry) {
 		/** array of HTML <option> items with the localized names as keys (for
 		 *  sorting) */
 		$names = array();
@@ -295,10 +283,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @param	ressource	DB result containing the data items to be displayed
 	 *
 	 * @return	string		HTML code containing the list, will not be empty
-	 *
-	 * @access protected
 	 */
-	function makelist($res)	{
+	private function makelist($res)	{
 		$items = array();
 
 		while($this->internal['currentRow']
@@ -314,10 +300,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * Creates the HTML output for a single contact.
 	 *
 	 * @return	string		HTML output for one contact, will not be empty
-	 *
-	 * @access	protected
 	 */
-	function makeListItem()	{
+	private function makeListItem()	{
 		$markerNames = array(
 			'company', 'contactperson', 'address1', 'address2', 'zipcode',
 			'zipprefixes', 'city', 'country', 'phone', 'fax', 'mobile',
@@ -348,10 +332,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * Creates the result browser.
 	 *
 	 * @return	string		HTML code for the result browser, will not be empty
-	 *
-	 * @access protected
 	 */
-	function makeResultBrowser() {
+	private function makeResultBrowser() {
 		$this->setMarkerContent(
 			'PIBASE_RESULTBROWSER', $this->pi_list_browseresults()
 		);
@@ -365,10 +347,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 *
 	 * @return	string		a regular expression (withouth the delimiting
 	 * 						slashes)
-	 *
-	 * @access	private
 	 */
-	function getZipRegExp() {
+	private function getZipRegExp() {
 		$enteredZipCode = $this->getEnteredZipCode();
 		if ($enteredZipCode !== $GLOBALS['TYPO3_DB']->quoteStr(
 			$enteredZipCode, 'tx_contactslist_contacts')
@@ -397,10 +377,8 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * 						retrieved, must not be empty
 	 *
 	 * @return	string		the field content, might be empty
-	 *
-	 * @access protected
 	 */
-	function getFieldContent($fN)	{
+	private function getFieldContent($fN)	{
 		$result = '';
 
 		switch($fN) {
