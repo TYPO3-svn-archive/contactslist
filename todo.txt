@@ -14,6 +14,5 @@ To-do list for the "contactslist" extension
 - use OElib
 - change to getConfValue*/hasConfValue*
 - test with TYPO3 4
-- convert language files to XML
 - move the setup to static
 - document the use of templates
