@@ -31,11 +31,12 @@
  * @author	Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('contactslist').'class.tx_contactslist_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 require_once(t3lib_extMgm::extPath('static_info_tables').'pi1/class.tx_staticinfotables_pi1.php');
 
-class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
+class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
 	public $prefixId = 'tx_contactslist_pi1';
 
@@ -54,24 +55,17 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * Displays the contacts list HTML.
 	 *
 	 * @param	string		(unused)
-	 * @param	array		TypoScript configuration for the plugin
+	 * @param	array		TypoScript configuration for the plugin, may be empty
 	 *
 	 * @return	string		HTML for the plugin, will not be empty
 	 */
-	public function main($unused, $conf) {
-		$this->conf = $conf;
-		$this->pi_setPiVarDefaults();
-		$this->pi_loadLL();
-
-		// includes the CSS in the page header
-		if ($this->getConfValue('cssFile') !== '') {
-			$GLOBALS['TSFE']->additionalHeaderData[]
-				= '<style type="text/css">@import "'
-					.$this->getConfValue('cssFile').'";</style>';
-		}
+	public function main($unused, array $configuration) {
+		$this->init($configuration);
 
 		$this->getTemplateCode();
 		$this->setLabels();
+		$this->setCSS();
+		$this->addCssToPageHeader();
 
 		$this->initStaticInfo();
 
@@ -139,7 +133,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->internal['currentTable'] = 'tx_contactslist_contacts';
 
 		// Removes fields from view.
-		$this->readSubpartsToHide($this->getConfValue('hideFields'), 'WRAPPER');
+		$this->hideSubparts($this->getConfValueString('hideFields'), 'WRAPPER');
 		$this->setCSS();
 
 		// Puts the whole list together.
@@ -160,24 +154,24 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @return	string		HTML code for the search box, will not be empty
 	 */
 	private function makeSearchbox() {
-		$this->setMarkerContent('INTRO', $this->pi_getLL('intro'));
-		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
+		$this->setMarker('intro', $this->translate('intro'));
+		$this->setMarker('self_url', $this->pi_linkTP_keepPIvars_url());
 
-		$this->setMarkerContent('NAME_COUNTRYSELECT', $this->prefixId.'[country]');
-		$this->setMarkerContent(
-			'ONCHANGE_COUNTRYSELECT',
-			$this->getConfValue('onchangeCountryselect')
+		$this->setMarker('name_countryselect', $this->prefixId.'[country]');
+		$this->setMarker(
+			'onchange_countryselect',
+			$this->getConfValueString('onchangeCountryselect')
 		);
-		$this->setMarkerContent(
-			'OPTIONS_COUNTRYSELECT',
+		$this->setMarker(
+			'options_countryselect',
 			$this->makeCountryItems($this->getSelectedCountry())
 		);
 
 
-		$this->setMarkerContent('NAME_ZIPCODE', $this->prefixId.'[zipcode]');
-		$this->setMarkerContent('VALUE_ZIPCODE', $this->getEnteredZipCode());
+		$this->setMarker('name_zipcode', $this->prefixId.'[zipcode]');
+		$this->setMarker('value_zipcode', $this->getEnteredZipCode());
 
-		return $this->substituteMarkerArrayCached('SEARCH_FORM');
+		return $this->getSubpart('SEARCH_FORM');
 	}
 
 	/**
@@ -195,21 +189,26 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 */
 	private function getSelectedCountry() {
 		$resultRaw = isset($this->piVars['country'])
-			? $this->piVars['country'] : $this->getConfValue('defaultCountry');
+			? $this->piVars['country']
+			: $this->getConfValueString('defaultCountry');
 		$resultQuoted = strtoupper(
 			$GLOBALS['TYPO3_DB']->quoteStr($resultRaw, 'static_countries')
 		);
 
 		// Gets the number of records.
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'COUNT(*) AS num',
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'COUNT(*) AS number',
 			'static_countries',
 			'cn_iso_3="'.$resultQuoted.'"'
 		);
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 
 		// Only uses the result if there is a DB record for it.
-		$result = ($row['num']) ? $resultQuoted : '';
+		$result = ($row['number']) ? $resultQuoted : '';
 
 		return $result;
 	}
@@ -243,33 +242,37 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		// If nothing is selected, puts an empty entry on top.
 		if (empty($selectedCountry)) {
-			$this->setMarkerContent('VALUE_COUNTRYITEM', '');
-			$this->setMarkerContent('SELECTED_COUNTRYITEM', '');
-			$this->setMarkerContent('LOCALIZED_COUNTRYITEM', '');
-			$names[' '] = $this->substituteMarkerArrayCached('ITEM_COUNTRYSELECT');
+			$this->setMarker('value_countryitem', '');
+			$this->setMarker('selected_countryitem', '');
+			$this->setMarker('localized_countryitem', '');
+			$names[' '] = $this->getSubpart('ITEM_COUNTRYSELECT');
 		}
 
 		// Gets the entries for all countries that have a contact.
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'cn_iso_3',
 			'tx_contactslist_contacts, static_countries',
 			'tx_contactslist_contacts.country=static_countries.cn_iso_3'
 		);
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$currentCountryCode = $row['cn_iso_3'];
 
-			$this->setMarkerContent('VALUE_COUNTRYITEM', $currentCountryCode);
-			$this->setMarkerContent(
-				'SELECTED_COUNTRYITEM',
+			$this->setMarker('value_countryitem', $currentCountryCode);
+			$this->setMarker(
+				'selected_countryitem',
 				($currentCountryCode === $selectedCountry)
 					? ' selected="selected"' : ''
 			);
 			$countryName = $this->staticInfo->getStaticInfoName(
 				'COUNTRIES', $currentCountryCode
 			);
-			$this->setMarkerContent('LOCALIZED_COUNTRYITEM', $countryName);
+			$this->setMarker('localized_countryitem', $countryName);
 
-			$names[$countryName] = $this->substituteMarkerArrayCached('ITEM_COUNTRYSELECT');
+			$names[$countryName] = $this->getSubpart('ITEM_COUNTRYSELECT');
 		}
 
 		// sorts by localized names
@@ -284,16 +287,16 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 *
 	 * @return	string		HTML code containing the list, will not be empty
 	 */
-	private function makelist($res)	{
+	private function makelist($resource)	{
 		$items = array();
 
 		while($this->internal['currentRow']
-			= $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)
+			= $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resource)
 		) {
 			$items[]=$this->makeListItem();
 		}
 
-		return implode(chr(10), $items);
+		return implode(LF, $items);
 	}
 
 	/**
@@ -311,21 +314,21 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		foreach ($markerNames as $currentMarkerName) {
 			$fieldContent = $this->getFieldContent($currentMarkerName);
 			if (!empty($fieldContent)) {
-				$this->setMarkerContent($currentMarkerName, $fieldContent);
+				$this->setMarker($currentMarkerName, $fieldContent);
 			} else {
 				// If there is no data to display, just removes the empty line.
-				$this->readSubpartsToHide($currentMarkerName, 'wrapper');
+				$this->hideSubparts($currentMarkerName, 'wrapper');
 			}
 		}
 
 		// Set the table summary: 'Contact information: <company>'
-		$this->setMarkerContent(
+		$this->setMarker(
 			'contact_summary',
-			$this->pi_getLL('contact_summary').': '
+			$this->translate('contact_summary').': '
 				.$this->getFieldContent('company')
 		);
 
-		return $this->substituteMarkerArrayCached('CONTACT_ITEM');
+		return $this->getSubpart('CONTACT_ITEM');
 	}
 
 	/**
@@ -334,11 +337,11 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * @return	string		HTML code for the result browser, will not be empty
 	 */
 	private function makeResultBrowser() {
-		$this->setMarkerContent(
-			'PIBASE_RESULTBROWSER', $this->pi_list_browseresults()
+		$this->setMarker(
+			'pibase_resultbrowser', $this->pi_list_browseresults()
 		);
 
-		return $this->substituteMarkerArrayCached('RESULTBROWSER_PART');
+		return $this->getSubpart('RESULTBROWSER_PART');
 	}
 
 	/**
@@ -378,10 +381,10 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 *
 	 * @return	string		the field content, might be empty
 	 */
-	private function getFieldContent($fN)	{
+	private function getFieldContent($key)	{
 		$result = '';
 
-		switch($fN) {
+		switch($key) {
 			case 'country':
 				$result = $this->staticInfo->getStaticInfoName(
 					'COUNTRIES',
@@ -389,12 +392,12 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 				);
 				break;
 			case 'homepage':
-				$url = $this->internal['currentRow'][$fN];
+				$url = $this->internal['currentRow'][$key];
 				$result = $this->cObj->getTypoLink($url, $url);
 				break;
 			case 'email':
 				$result = $this->cObj->mailto_makelinks(
-					'mailto:'.$this->internal['currentRow'][$fN], array()
+					'mailto:'.$this->internal['currentRow'][$key], array()
 				);
 				break;
 			case 'phone':
@@ -415,13 +418,13 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 					? $row['cn_phone'] : '???').'&nbsp;';
 
 				// only shows the prefix if we have a phone number
-				$result = $this->internal['currentRow'][$fN];
+				$result = $this->internal['currentRow'][$key];
 				if (!empty($result)) {
 					$result = $phonePrefix.$result;
 				}
 				break;
 			default:
-				$result = $this->internal['currentRow'][$fN];
+				$result = $this->internal['currentRow'][$key];
 				break;
 		}
 

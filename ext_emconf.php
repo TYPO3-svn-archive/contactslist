@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Display a list of contacts, e.g. of sales offices. The list is searchable by ZIP code and by country.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'dependencies' => 'cms,static_info_tables',
+	'dependencies' => 'cms,css_styled_content,oelib,static_info_tables',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -39,6 +39,8 @@ $EM_CONF[$_EXTKEY] = array(
 			'php' => '5.1.0-0.0.0',
 			'typo3' => '4.0.0-0.0.0',
 			'cms' => '',
+			'css_styled_content' => '',
+			'oelib' => '0.4.0-',
 			'static_info_tables' => '2.0.2-',
 		),
 		'conflicts' => array(
