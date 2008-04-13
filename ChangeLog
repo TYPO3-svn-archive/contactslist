@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1808] Change: Use static_info_tables instead of sr_static_info
 - [#1801] Change: Update the requirements to TYPO3 4.0 and PHP 5.1
 - [#1803] Change: Move the setup to pi1/static
 - [#1810] Change: Code cleanup

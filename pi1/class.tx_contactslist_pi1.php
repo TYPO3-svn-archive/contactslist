@@ -33,7 +33,7 @@
 
 require_once(t3lib_extMgm::extPath('contactslist').'class.tx_contactslist_templatehelper.php');
 
-require_once(t3lib_extMgm::extPath('sr_static_info').'pi1/class.tx_srstaticinfo_pi1.php');
+require_once(t3lib_extMgm::extPath('static_info_tables').'pi1/class.tx_staticinfotables_pi1.php');
 
 class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	/** same as class name */
@@ -47,7 +47,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 	var $pi_checkCHash = true;
 
-	/** static info library */
+	/** an instance of tx_staticinfotables_pi1 */
 	var $staticInfo = null;
 
 	/**
@@ -75,8 +75,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		$this->getTemplateCode();
 		$this->setLabels();
 
-		$this->staticInfo = t3lib_div::makeInstance('tx_srstaticinfo_pi1');
-        $this->staticInfo->init();
+		$this->initStaticInfo();
 
 		if (strstr($this->cObj->currentRecord,'tt_content')) {
 			$this->conf['pidList'] = $this->cObj->data['pages'];
@@ -450,8 +449,17 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		return $result;
 	}
-}
 
+	/**
+	 * Creates and initializes $this->staticInfo (if that hasn't been done yet).
+	 */
+	private function initStaticInfo() {
+		if (!$this->staticInfo) {
+			$this->staticInfo =& t3lib_div::makeInstance('tx_staticinfotables_pi1');
+			$this->staticInfo->init();
+		}
+	}
+}
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/contactslist/pi1/class.tx_contactslist_pi1.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/contactslist/pi1/class.tx_contactslist_pi1.php']);
