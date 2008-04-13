@@ -30,7 +30,7 @@ $TCA['tx_contactslist_contacts'] = Array(
 				'checkbox' => '0'
 			)
 		),
-		'endtime' => Array(	
+		'endtime' => Array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array(
@@ -46,91 +46,91 @@ $TCA['tx_contactslist_contacts'] = Array(
 				)
 			)
 		),
-		'company' => Array(	
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.company',		
+		'company' => Array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.company',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '30',	
+				'type' => 'input',
+				'size' => '30',
 				'eval' => 'required',
 			)
 		),
 		'contactperson' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.contactperson',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.contactperson',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
 		'address1' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.address1',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.address1',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
 		'address2' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.address2',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.address2',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
 		'zipcode' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.zipcode',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.zipcode',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '30',	
+				'type' => 'input',
+				'size' => '30',
 				'max' => '10',
 			)
 		),
 		'city' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.city',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.city',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 				'eval' => 'required',
 			)
 		),
 		'country' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.country',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.country',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '3',	
+				'type' => 'input',
+				'size' => '3',
 				'max' => '3',
 				'eval' => 'required',
 			)
 		),
 		'phone' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.phone',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.phone',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '30',	
+				'type' => 'input',
+				'size' => '30',
 				'max' => '30',
 			)
 		),
 		'fax' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.fax',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.fax',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '30',	
+				'type' => 'input',
+				'size' => '30',
 				'max' => '30',
 			)
 		),
 		'mobile' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.mobile',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.mobile',
 			'config' => Array(
-				'type' => 'input',	
-				'size' => '30',	
+				'type' => 'input',
+				'size' => '30',
 				'max' => '30',
 			)
 		),
@@ -156,18 +156,18 @@ $TCA['tx_contactslist_contacts'] = Array(
 			)
 		),
 		'email' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.email',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.email',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),
 		'zipprefixes' => Array(
-			'exclude' => 0,		
-			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.zipprefixes',		
+			'exclude' => 0,
+			'label' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts.zipprefixes',
 			'config' => Array(
-				'type' => 'input',	
+				'type' => 'input',
 				'size' => '30',
 			)
 		),

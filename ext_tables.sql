@@ -25,7 +25,7 @@ CREATE TABLE tx_contactslist_contacts (
 	homepage tinytext NOT NULL,
 	email tinytext NOT NULL,
 	zipprefixes tinytext NOT NULL,
-	
+
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );

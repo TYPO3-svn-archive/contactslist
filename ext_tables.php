@@ -9,16 +9,16 @@ t3lib_extMgm::addToInsertRecords('tx_contactslist_contacts');
 
 $TCA['tx_contactslist_contacts'] = Array (
 	'ctrl' => Array (
-		'title' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts',		
-		'label' => 'company',	
+		'title' => 'LLL:EXT:contactslist/locallang_db.php:tx_contactslist_contacts',
+		'label' => 'company',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
-		'sortby' => 'sorting',	
-		'delete' => 'deleted',	
-		'enablecolumns' => Array (		
-			'disabled' => 'hidden',	
-			'starttime' => 'starttime',	
+		'sortby' => 'sorting',
+		'delete' => 'deleted',
+		'enablecolumns' => Array (
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',

@@ -38,25 +38,25 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	/** The extension key. */
 	var $extKey = 'contactslist';
 	var $pi_checkCHash = TRUE;
-	
+
 	/** Static info library */
 	var $staticInfo;
-	
+
 	/**
 	 * Displays the contactslist HTML.
 	 *
 	 * @param	string		Default content string, ignore
 	 * @param	array		TypoScript configuration for the plugin
-	 * 
+	 *
 	 * @return	string		HTML for the plugin
-	 * 
+	 *
 	 * @access public
 	 */
 	function main($content, $conf)	{
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
-		
+
 		// include CSS in header of page
 		if ($this->getConfValue('cssFile') !== '') {
 			$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css">@import "'.$this->getConfValue('cssFile').'";</style>';
@@ -64,28 +64,28 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		$this->getTemplateCode();
 		$this->setLabels();
-		
+
 		$this->staticInfo = t3lib_div::makeInstance('tx_srstaticinfo_pi1');
         $this->staticInfo->init();
-        
+
 		if (strstr($this->cObj->currentRecord,'tt_content')) {
 			$this->conf['pidList'] = $this->cObj->data['pages'];
 			$this->conf['recursive'] = $this->cObj->data['recursive'];
 		}
 		return $this->pi_wrapInBaseClass($this->listView());
 	}
-	
+
 	/**
 	 * Displays a list of contacts.
 	 *
 	 * @return	string		HTML for the plugin
-	 * 
+	 *
 	 * @access protected
 	 */
 	function listView()	{
 		/** Local settings for the listView function */
-		$lConf = $this->conf['listView.'];	
-	
+		$lConf = $this->conf['listView.'];
+
 		if (!isset($this->piVars['pointer'])) {
 			$this->piVars['pointer'] = 0;
 		}
@@ -95,17 +95,17 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 		// Initializing the query parameters:
 		list($this->internal['orderBy'], $this->internal['descFlag']) = explode(':', $this->piVars['sort']);
-		
+
 		// Number of results to show in a listing.
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange($lConf['results_at_a_time'],0,1000,10);
-		
+
 		// The maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
 		$this->internal['maxPages']          = t3lib_div::intInRange($lConf['maxPages'],0,1000,2);
-		
+
 		$sameCountry = ' AND country="'.$this->getSelectedCountry().'"';
 
 		$searchForZipCode = '';
-		
+
 		// Only search for ZIP prefixes if any ZIP code actually has been entered.
 		// Else, let's display the full list.
 		if ($this->getEnteredZipCode()) {
@@ -123,7 +123,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		// Remove fields from view
 		$this->readSubpartsToHide($this->getConfValue('hideFields'), 'WRAPPER');
 		$this->setCSS();
-		
+
 		// Put the whole list together:
 		$fullTable = $this->makeSearchbox();
 		$fullTable .= $this->makelist($res);
@@ -135,42 +135,42 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	/**
 	 * Creates the search box, containing a country selector, a zipcode search box
 	 * and a submit button.
-	 * 
+	 *
 	 * The form elements are already populated with the data given via GET (if there is any).
-	 * 
+	 *
 	 * @return	String		HTML code for the search box
-	 * 
+	 *
 	 * @access protected
 	 */
 	function makeSearchbox() {
 		$this->setMarkerContent('INTRO', $this->pi_getLL('intro'));
 		$this->setMarkerContent('SELF_URL', $this->pi_linkTP_keepPIvars_url());
-		
+
 		$this->setMarkerContent('NAME_COUNTRYSELECT', $this->prefixId.'[country]');
 		$this->setMarkerContent('ONCHANGE_COUNTRYSELECT', $this->getConfValue('onchangeCountryselect'));
 		$this->setMarkerContent('OPTIONS_COUNTRYSELECT', $this->makeCountryItems($this->getSelectedCountry()));
-		
-		
+
+
 		$this->setMarkerContent('NAME_ZIPCODE', $this->prefixId.'[zipcode]');
 		$this->setMarkerContent('VALUE_ZIPCODE', $this->getEnteredZipCode());
-		
+
 		$result = $this->substituteMarkerArrayCached('SEARCH_FORM');
-		
+
 		return $result;
 	}
 
 	/**
 	 * Gets the code for the selected country - either from $this->piVars or, if there is nothing set,
 	 * from the TS setup.
-	 * 
+	 *
 	 * If no country is selected, an empty String is returned.
-	 * 
+	 *
 	 * Also an empty string is returned if there is no country with that code in the list of countries in the DB.
-	 * 
+	 *
 	 * The return value is quoted (although that shouldn't be necessary anyway).-
-	 * 
+	 *
 	 * @return	String		ISO alpha3 code of the selected country
-	 * 
+	 *
 	 * @access	public
 	 */
 	function getSelectedCountry() {
@@ -180,40 +180,40 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 		// Get number of records
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('COUNT(*) AS num', 'static_countries', 'cn_iso_3="'.$resultQuoted.'"');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-		
+
 		// Only use the result if there is a DB entry for it
 		$result = ($row['num']) ? $resultQuoted : '';
-		
+
 		return $result;
 	}
 
 	/**
 	 * Gets the ZIP code to search for (from $this->piVars). If there is nothing set,
 	 * an empty string is returned
-	 * 
+	 *
 	 * @return	String		trimmed ZIP code from the input form
-	 * 
+	 *
 	 * @access	public
 	 */
 	function getEnteredZipCode() {
 		$result = isset($this->piVars['zipcode']) ? $this->piVars['zipcode'] : '';
-		
+
 		return trim(htmlspecialchars($result));
 	}
 
 	/**
 	 * Creates a list of <option> elements for countries that have a contact.
-	 * 
+	 *
 	 * @param	String		ISO alpha3 code for the country to be pre-selected (may be empty)
-	 * 
+	 *
 	 * @return	String		HTML code for the <option> elements (without the <select>)
-	 * 
+	 *
 	 * @access	private
 	 */
 	function makeCountryItems($selectedCountry) {
 		/** array of HTML <option> items with the localized names as keys (for sorting) */
 		$names = array();
-		
+
 		// if nothing is selected, put an empty entry on top
 		if (empty($selectedCountry)) {
 			$this->setMarkerContent('VALUE_COUNTRYITEM', '');
@@ -221,7 +221,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 			$this->setMarkerContent('LOCALIZED_COUNTRYITEM', '');
 			$names[' '] = $this->substituteMarkerArrayCached('ITEM_COUNTRYSELECT');
 		}
-		
+
 		// Get entries for all countries that have a contact
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('cn_iso_3', 'tx_contactslist_contacts, static_countries', 'tx_contactslist_contacts.country=static_countries.cn_iso_3');
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -234,7 +234,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 				$names[$countryName] = $this->substituteMarkerArrayCached('ITEM_COUNTRYSELECT');
 			}
-		
+
 		// sort by localized names
 		uksort($names, 'strcoll');
 		return implode('', $names);
@@ -242,34 +242,34 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 
 	/**
 	 * Creates a nice list of contacts.
-	 * 
+	 *
 	 * @param	object	DB result containing the data items to be displayed
-	 * 
+	 *
 	 * @return	string	HTML code containing the list
-	 * 
+	 *
 	 * @access protected
 	 */
 	function makelist($res)	{
 		$items = array();
-		
+
 		while($this->internal['currentRow'] = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$items[]=$this->makeListItem();
 		}
-	
+
 		return implode(chr(10), $items);
 	}
-	
+
 	/**
 	 * Creates the HTML output for a single contact.
-	 * 
+	 *
 	 * @return	string	HTML output for one contact (shouldn't be empty)
-	 * 
+	 *
 	 * @access	protected
 	 */
 	function makeListItem()	{
 		$markerNames = array('company', 'contactperson', 'address1', 'address2', 'zipcode',
 			'zipprefixes', 'city', 'country', 'phone', 'fax', 'mobile', 'homepage', 'email', 'zipprefixes');
-			
+
 		foreach ($markerNames as $currentMarkerName) {
 			$fieldContent = $this->getFieldContent($currentMarkerName);
 			if (!empty($fieldContent)) {
@@ -279,32 +279,32 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 				$this->readSubpartsToHide($currentMarkerName, 'wrapper');
 			}
 		}
-		
+
 		// set table summary: 'Contact information: <company>'
 		$this->setMarkerContent('contact_summary', $this->pi_getLL('contact_summary').': '.$this->getFieldContent('company'));
-		
+
 		return $this->substituteMarkerArrayCached('CONTACT_ITEM');
 	}
 
 	/**
 	 * Creates the result browser.
-	 * 
+	 *
 	 * @return	String		HTML code for the result browser
-	 * 
+	 *
 	 * @access protected
 	 */
 	function makeResultBrowser() {
 		$this->setMarkerContent('PIBASE_RESULTBROWSER', $this->pi_list_browseresults());
-		
+
 		return $this->substituteMarkerArrayCached('RESULTBROWSER_PART');
 	}
 
 	/**
 	 * Creates a regular expression that searches strings of comma-separated ZIP prefixes
 	 * for the entered ZIP code.
-	 * 
+	 *
 	 * @return	String		a regular expression (withouth the delimiting slashes)
-	 * 
+	 *
 	 * @access	private
 	 */
 	function getZipRegExp() {
@@ -315,15 +315,15 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 			$enteredZipCode = '';
 		}
 		$listOfPrefixes = '';
-		
+
 		for ($i = 1; $i <= strlen($enteredZipCode); $i++) {
 			if (!empty($listOfPrefixes)) {
 				$listOfPrefixes .= '|';
 			}
-			
+
 			$listOfPrefixes .= substr($enteredZipCode, 0, $i);
 		}
-		
+
 		return '('.$listOfPrefixes.')';
 	}
 
@@ -331,14 +331,14 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 	 * Gets the content for a field (e.g. company name).
 	 *
 	 * @param	String		key of the field for which the content should be retrieved
-	 * 
+	 *
 	 * @return	String		the field content (may be empty)
-	 * 
+	 *
 	 * @access protected
 	 */
 	function getFieldContent($fN)	{
 		$result = '';
-		
+
 		switch($fN) {
 			case 'country':
 				$result = $this->staticInfo->getStaticInfoName('COUNTRIES', strtoupper($this->internal['currentRow']['country']));
@@ -359,7 +359,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 				$row         = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
 				// if the phone prefix is not stored in the DB (or it is wrong), show question marks
 				$phonePrefix = '+'.(isset($row['cn_phone']) ? $row['cn_phone'] : '???').'&nbsp;';
-				
+
 				// only show the prefix if we have a phone number
 				$result = $this->internal['currentRow'][$fN];
 				if (!empty($result)) {
@@ -370,7 +370,7 @@ class tx_contactslist_pi1 extends tx_contactslist_templatehelper {
 				$result = $this->internal['currentRow'][$fN];
 				break;
 		}
-		
+
 		return $result;
 	}
 }
