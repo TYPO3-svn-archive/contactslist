@@ -9,9 +9,7 @@ To-do list for the "contactslist" extension
 - improve the French localization
 - mention that this extension creates valid XHTML
 - fix URLs : &amp; -> &, ?& -> ?, & -> &amp; (should probably be done in the salutation switcher)
-- test with PHP 5
 - documentation: mention sponsorship (payment)
 - use OElib
 - change to getConfValue*/hasConfValue*
-- test with TYPO3 4
 - document the use of templates
