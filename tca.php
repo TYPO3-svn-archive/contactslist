@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
@@ -180,5 +179,4 @@ $TCA['tx_contactslist_contacts'] = array(
 		'1' => array('showitem' => 'starttime, endtime')
 	)
 );
-
 ?>
