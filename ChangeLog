@@ -1,4 +1,4 @@
-0.4.0 - currently working on
+0.4.0 - released 2008-04-18
 - [#1818] Change: Comment and whitespace consistency cleanup
 - [#1786] Fix: On a search result, fields are shown only if all the previous search results have the field non empty
 - [#1072] Change: List the list view TS setup in the reference and use the correct getters
