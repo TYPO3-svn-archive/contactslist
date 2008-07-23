@@ -15,8 +15,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
-				'default' => '0'
-			)
+				'default' => '0',
+			),
 		),
 		'starttime' => array(
 			'exclude' => 1,
@@ -27,8 +27,8 @@ $TCA['tx_contactslist_contacts'] = array(
 				'max' => '20',
 				'eval' => 'date',
 				'default' => '0',
-				'checkbox' => '0'
-			)
+				'checkbox' => '0',
+			),
 		),
 		'endtime' => array(
 			'exclude' => 1,
@@ -42,9 +42,9 @@ $TCA['tx_contactslist_contacts'] = array(
 				'default' => '0',
 				'range' => array(
 					'upper' => mktime(0,0,0,12,31,2020),
-					'lower' => mktime(0,0,0,date('m')-1,date('d'),date('Y'))
-				)
-			)
+					'lower' => mktime(0,0,0,date('m')-1,date('d'),date('Y')),
+				),
+			),
 		),
 		'company' => array(
 			'exclude' => 0,
@@ -52,32 +52,32 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
+				'eval' => 'required',
+			),
 		),
 		'contactperson' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:contactslist/locallang_db.xml:tx_contactslist_contacts.contactperson',
 			'config' => array(
 				'type' => 'input',
-				'size' => '30'
-			)
+				'size' => '30',
+			),
 		),
 		'address1' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:contactslist/locallang_db.xml:tx_contactslist_contacts.address1',
 			'config' => array(
 				'type' => 'input',
-				'size' => '30'
-			)
+				'size' => '30',
+			),
 		),
 		'address2' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:contactslist/locallang_db.xml:tx_contactslist_contacts.address2',
 			'config' => array(
 				'type' => 'input',
-				'size' => '30'
-			)
+				'size' => '30',
+			),
 		),
 		'zipcode' => array(
 			'exclude' => 0,
@@ -85,8 +85,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'max' => '10'
-			)
+				'max' => '10',
+			),
 		),
 		'city' => array(
 			'exclude' => 0,
@@ -94,8 +94,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
+				'eval' => 'required',
+			),
 		),
 		'country' => array(
 			'exclude' => 0,
@@ -104,8 +104,8 @@ $TCA['tx_contactslist_contacts'] = array(
 				'type' => 'input',
 				'size' => '3',
 				'max' => '3',
-				'eval' => 'required'
-			)
+				'eval' => 'required',
+			),
 		),
 		'phone' => array(
 			'exclude' => 0,
@@ -113,8 +113,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'max' => '30'
-			)
+				'max' => '30',
+			),
 		),
 		'fax' => array(
 			'exclude' => 0,
@@ -122,8 +122,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'max' => '30'
-			)
+				'max' => '30',
+			),
 		),
 		'mobile' => array(
 			'exclude' => 0,
@@ -131,8 +131,8 @@ $TCA['tx_contactslist_contacts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'max' => '30'
-			)
+				'max' => '30',
+			),
 		),
 		'homepage' => array(
 			'exclude' => 0,
@@ -150,33 +150,33 @@ $TCA['tx_contactslist_contacts'] = array(
 						'title' => 'Link',
 						'icon' => 'link_popup.gif',
 						'script' => 'browse_links.php?mode=wizard',
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'email' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:contactslist/locallang_db.xml:tx_contactslist_contacts.email',
 			'config' => array(
 				'type' => 'input',
-				'size' => '30'
-			)
+				'size' => '30',
+			),
 		),
 		'zipprefixes' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:contactslist/locallang_db.xml:tx_contactslist_contacts.zipprefixes',
 			'config' => array(
 				'type' => 'input',
-				'size' => '30'
-			)
-		)
+				'size' => '30',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, company, contactperson, address1, address2, zipcode, city, country, phone, fax, mobile, homepage, email, zipprefixes')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, company, contactperson, address1, address2, zipcode, city, country, phone, fax, mobile, homepage, email, zipprefixes'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => 'starttime, endtime')
-	)
+		'1' => array('showitem' => 'starttime, endtime'),
+	),
 );
 ?>
