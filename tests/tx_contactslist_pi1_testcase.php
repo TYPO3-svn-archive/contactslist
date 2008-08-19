@@ -47,6 +47,7 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework
 			= new tx_oelib_testingFramework('tx_contactslist');
+		$this->testingFramework->createFakeFrontEnd();
 
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 
