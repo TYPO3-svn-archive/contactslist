@@ -58,6 +58,7 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 				'isStaticTemplateLoaded' => 1,
 				'templateFile' => 'EXT:contactslist/pi1/contactslist_pi1.html',
 				'pidList' => $this->systemFolderPid,
+				'defaultCountry' => 'DEU',
 				'listView.' => array(
 					'results_at_a_time' => 10,
 					'maxPages' => 5,
@@ -96,7 +97,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			self::table,
 			array(
 				'company' => 'company 1',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -111,14 +113,16 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			self::table,
 			array(
 				'company' => 'company 1',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
 			self::table,
 			array(
 				'company' => 'company 2',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -138,14 +142,16 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			self::table,
 			array(
 				'company' => 'company A',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
 			self::table,
 			array(
 				'company' => 'company B',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -160,14 +166,16 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			self::table,
 			array(
 				'company' => 'company B',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
 			self::table,
 			array(
 				'company' => 'company A',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -183,7 +191,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company A',
 				'homepage' => '',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
@@ -191,7 +200,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company B',
 				'homepage' => 'http://www.foo.com/',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -207,7 +217,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company A',
 				'phone' => '',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
@@ -215,7 +226,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company B',
 				'phone' => '1234 56789',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 
@@ -231,7 +243,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company A',
 				'fax' => '',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 		$this->testingFramework->createRecord(
@@ -239,7 +252,8 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			array(
 				'company' => 'company B',
 				'fax' => '1234 56789',
-				'pid' => $this->systemFolderPid
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
 			)
 		);
 

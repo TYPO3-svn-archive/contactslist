@@ -52,6 +52,14 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	private $staticInfo = null;
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->staticInfo);
+		parent::__destruct();
+	}
+
+	/**
 	 * Displays the contacts list HTML.
 	 *
 	 * @param	string		(unused)
@@ -203,6 +211,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		// Only uses the result if there is a DB record for it.
 		$result = ($row['number']) ? $resultQuoted : '';
@@ -271,6 +280,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 
 			$names[$countryName] = $this->getSubpart('ITEM_COUNTRYSELECT');
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		// sorts by localized names
 		uksort($names, 'strcoll');
@@ -416,6 +426,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 					'cn_iso_3="'.trim($countryCode).'"'
 				);
 				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
+				$GLOBALS['TYPO3_DB']->sql_free_result($queryResult);
 				// if the phone prefix is not stored in the DB (or it is wrong),
 				// shows question marks
 				$phonePrefix = '+'.(isset($row['cn_phone'])
@@ -440,7 +451,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function initStaticInfo() {
 		if (!$this->staticInfo) {
-			$this->staticInfo =& t3lib_div::makeInstance('tx_staticinfotables_pi1');
+			$this->staticInfo = t3lib_div::makeInstance('tx_staticinfotables_pi1');
 			$this->staticInfo->init();
 		}
 	}
