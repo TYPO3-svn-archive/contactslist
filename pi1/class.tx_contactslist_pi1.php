@@ -1,34 +1,34 @@
 <?php
 /***************************************************************
-*  Copyright notice
+* Copyright notice
 *
-*  (c) 2005-2008 Oliver Klee (typo3-coding@oliverklee.de)
-*  All rights reserved
+* (c) 2005-2008 Oliver Klee (typo3-coding@oliverklee.de)
+* All rights reserved
 *
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
+* This script is part of the TYPO3 project. The TYPO3 project is
+* free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
 *
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
+* The GNU General Public License can be found at
+* http://www.gnu.org/copyleft/gpl.html.
 *
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
+* This script is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
 *
-*  This copyright notice MUST APPEAR in all copies of the script!
+* This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
 /**
  * Plugin 'Contacts List' for the 'contactslist' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_contactslist
+ * @package TYPO3
+ * @subpackage tx_contactslist
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -62,11 +62,10 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Displays the contacts list HTML.
 	 *
-	 * @param	string		(unused)
-	 * @param	array		TypoScript configuration for the plugin, may be
-	 * 						empty
+	 * @param string (unused)
+	 * @param array TypoScript configuration for the plugin, may be empty
 	 *
-	 * @return	string		HTML for the plugin, will not be empty
+	 * @return string HTML for the plugin, will not be empty
 	 */
 	public function main($unused, array $configuration) {
 		$this->init($configuration);
@@ -88,9 +87,9 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Displays a list of contacts.
 	 *
-	 * @return	string		HTML for the plugin, will not be empty
+	 * @return string HTML for the plugin, will not be empty
 	 */
-	private function listView()	{
+	private function listView() {
 		$this->internal['orderByList']
 			= 'company,contactperson,zipcode,city,country';
 
@@ -156,7 +155,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * The form elements are already populated with the data given via GET (if
 	 * there is any).
 	 *
-	 * @return	string		HTML code for the search box, will not be empty
+	 * @return string HTML code for the search box, will not be empty
 	 */
 	private function makeSearchbox() {
 		$this->setMarker('intro', $this->translate('intro'));
@@ -190,7 +189,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * The return value is quoted (although that shouldn't be necessary anyway).
 	 *
-	 * @return	string		ISO alpha3 code of the selected country
+	 * @return string ISO alpha3 code of the selected country
 	 */
 	private function getSelectedCountry() {
 		$resultRaw = isset($this->piVars['country'])
@@ -223,7 +222,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * Gets the ZIP code to search for (from $this->piVars). If there is nothing
 	 * set, an empty string is returned
 	 *
-	 * @return	string		trimmed ZIP code from the input form, might be empty
+	 * @return string trimmed ZIP code from the input form, might be empty
 	 */
 	private function getEnteredZipCode() {
 		$result = isset($this->piVars['zipcode'])
@@ -235,11 +234,11 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a list of <option> elements for countries that have a contact.
 	 *
-	 * @param	string		ISO alpha3 code for the country to be pre-selected,
-	 * 						may be empty
+	 * @param string ISO alpha3 code for the country to be pre-selected,
+	 *               may be empty
 	 *
-	 * @return	string		HTML code for the <option> elements (without the
-	 * 						<select>), will not be empty
+	 * @return string HTML code for the <option> elements (without the
+	 *                <select>), will not be empty
 	 */
 	private function makeCountryItems($selectedCountry) {
 		/** array of HTML <option> items with the localized names as keys (for
@@ -290,11 +289,11 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a nice list of contacts.
 	 *
-	 * @param	ressource	DB result containing the data items to be displayed
+	 * @param ressource DB result containing the data items to be displayed
 	 *
-	 * @return	string		HTML code containing the list, will not be empty
+	 * @return string HTML code containing the list, will not be empty
 	 */
-	private function makelist($resource)	{
+	private function makelist($resource) {
 		$items = array();
 
 		while($this->internal['currentRow']
@@ -309,9 +308,9 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the HTML output for a single contact.
 	 *
-	 * @return	string		HTML output for one contact, will not be empty
+	 * @return string HTML output for one contact, will not be empty
 	 */
-	private function makeListItem()	{
+	private function makeListItem() {
 		$markerNames = array(
 			'company', 'contactperson', 'address1', 'address2', 'zipcode',
 			'zipprefixes', 'city', 'country', 'phone', 'fax', 'mobile',
@@ -348,7 +347,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the result browser.
 	 *
-	 * @return	string		HTML code for the result browser, will not be empty
+	 * @return string HTML code for the result browser, will not be empty
 	 */
 	private function makeResultBrowser() {
 		$this->setMarker(
@@ -362,8 +361,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * Creates a regular expression that searches strings of comma-separated ZIP
 	 * prefixes for the entered ZIP code.
 	 *
-	 * @return	string		a regular expression (withouth the delimiting
-	 * 						slashes)
+	 * @return string a regular expression (withouth the delimiting slashes)
 	 */
 	private function getZipRegExp() {
 		$enteredZipCode = $this->getEnteredZipCode();
@@ -390,12 +388,12 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Gets the content for a field (e.g. company name).
 	 *
-	 * @param	string		key of the field for which the content should be
-	 * 						retrieved, must not be empty
+	 * @param string key of the field for which the content should be
+	 *               retrieved, must not be empty
 	 *
-	 * @return	string		the field content, might be empty
+	 * @return string the field content, might be empty
 	 */
-	private function getFieldContent($key)	{
+	private function getFieldContent($key) {
 		$result = '';
 
 		switch($key) {

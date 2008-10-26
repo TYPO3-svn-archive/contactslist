@@ -25,9 +25,9 @@
 /**
  * Testcase for the tx_contactslist_pi1 class in the 'contactslist' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_contactslist
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @package TYPO3
+ * @subpackage tx_contactslist
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
@@ -157,7 +157,7 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 
 		$output = $this->fixture->main('', array());
 		$this->assertTrue(
-			strpos($output,	'company A') < strpos($output,	'company B')
+			strpos($output, 'company A') < strpos($output, 'company B')
 		);
 	}
 
@@ -181,7 +181,7 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 
 		$output = $this->fixture->main('', array());
 		$this->assertTrue(
-			strpos($output,	'company A') < strpos($output,	'company B')
+			strpos($output, 'company A') < strpos($output, 'company B')
 		);
 	}
 
