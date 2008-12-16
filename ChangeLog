@@ -1,4 +1,4 @@
-0.5.0 - currently working on
+0.5.0 - released 2008-12-16
 - [#2419] Change: Make the country a table key
 - [#2034] Fix: ZIPs starting with 0 not working
 - [#1000] Fix: 'mailto:' is displayed when field 'email' is empty
