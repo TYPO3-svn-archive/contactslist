@@ -324,13 +324,13 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 			'wrapper'
 		);
 
-		foreach ($markerNames as $currentMarkerName) {
-			$fieldContent = $this->getFieldContent($currentMarkerName);
-			if (!empty($fieldContent)) {
-				$this->setMarker($currentMarkerName, $fieldContent);
+		foreach ($markerNames as $markerName) {
+			$fieldContent = $this->getFieldContent($markerName);
+			if ($fieldContent != '') {
+				$this->setMarker($markerName, $fieldContent);
 			} else {
 				// If there is no data to display, just removes the empty line.
-				$this->hideSubparts($currentMarkerName, 'wrapper');
+				$this->hideSubparts($markerName, 'wrapper');
 			}
 		}
 
@@ -408,12 +408,17 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 				$result = $this->cObj->getTypoLink($url, $url);
 				break;
 			case 'email':
-				$result = $this->cObj->mailto_makelinks(
-					'mailto:'.$this->internal['currentRow'][$key], array()
-				);
+				$eMailAddress = $this->internal['currentRow'][$key];
+
+				$result = ($eMailAddress != '')
+					? $this->cObj->mailto_makelinks(
+						'mailto:' . $eMailAddress, array())
+					: '';
 				break;
 			case 'phone':
+				// The fall-through is intended.
 			case 'fax':
+				// The fall-through is intended.
 			case 'mobile':
 				$countryCode
 					 = strtoupper($this->internal['currentRow']['country']);

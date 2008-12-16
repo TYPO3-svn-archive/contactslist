@@ -262,5 +262,58 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+
+	////////////////////////////////////////
+	// Tests concerning the e-mail address
+	////////////////////////////////////////
+
+	public function testListViewShowsNonEmptyEMailAddress() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'email' => 'foo@bar.com',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->assertContains(
+			'foo@bar.com',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewForNonEmptyEMailAddressContainsMailto() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'email' => 'foo@bar.com',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->assertContains(
+			'mailto:',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewForNonEmptyEMailAddressNotContainsMailto() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'email' => '',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->assertNotContains(
+			'mailto:',
+			$this->fixture->main('', array())
+		);
+	}
 }
 ?>
