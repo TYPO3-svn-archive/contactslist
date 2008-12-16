@@ -29,5 +29,6 @@ CREATE TABLE tx_contactslist_contacts (
 	zipprefixes tinytext,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY country (country(3))
 );
