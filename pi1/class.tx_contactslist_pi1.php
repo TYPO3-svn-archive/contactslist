@@ -114,25 +114,25 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 
 		$sameCountry = ' AND country="'.$this->getSelectedCountry().'"';
 
-		$searchForZipCode = '';
-
 		// Only searches for ZIP prefixes if any ZIP code actually has been
 		// entered. Otherwise, displays the full list.
-		if ($this->getEnteredZipCode()) {
-			$searchForZipCode = ' AND zipprefixes REGEXP "(^|,| )'
-				.$this->getZipRegExp().'($|,| )"';
+		if ($this->getEnteredZipCode() != '') {
+			$searchForZipCode = ' AND zipprefixes REGEXP "(^|,| )' .
+				$this->getZipRegExp() . '($|,| )"';
+		} else {
+			$searchForZipCode = '';
 		}
 
 		// Gets the number of records.
 		$res = $this->pi_exec_query(
-			'tx_contactslist_contacts', 1, $sameCountry.$searchForZipCode
+			'tx_contactslist_contacts', 1, $sameCountry . $searchForZipCode
 		);
 		list($this->internal['res_count'])
 			= $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 
 		// Makes the listing query and passes the query to SQL database.
 		$res = $this->pi_exec_query(
-			'tx_contactslist_contacts', 0, $sameCountry.$searchForZipCode
+			'tx_contactslist_contacts', 0, $sameCountry . $searchForZipCode
 		);
 		$this->internal['currentTable'] = 'tx_contactslist_contacts';
 
@@ -173,7 +173,9 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 
 
 		$this->setMarker('name_zipcode', $this->prefixId.'[zipcode]');
-		$this->setMarker('value_zipcode', $this->getEnteredZipCode());
+		$this->setMarker(
+			'value_zipcode', htmlspecialchars($this->getEnteredZipCode())
+		);
 
 		return $this->getSubpart('SEARCH_FORM');
 	}
@@ -220,15 +222,13 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Gets the ZIP code to search for (from $this->piVars). If there is nothing
-	 * set, an empty string is returned
+	 * set, an empty string is returned.
 	 *
 	 * @return string trimmed ZIP code from the input form, might be empty
 	 */
 	private function getEnteredZipCode() {
-		$result = isset($this->piVars['zipcode'])
-			? $this->piVars['zipcode'] : '';
-
-		return trim(htmlspecialchars($result));
+		return (isset($this->piVars['zipcode']))
+			? trim($this->piVars['zipcode']) : '';
 	}
 
 	/**
@@ -361,28 +361,26 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	 * Creates a regular expression that searches strings of comma-separated ZIP
 	 * prefixes for the entered ZIP code.
 	 *
-	 * @return string a regular expression (withouth the delimiting slashes)
+	 * @return string a regular expression (withouth the delimiting slashes),
+	 *                will be not empty
 	 */
 	private function getZipRegExp() {
 		$enteredZipCode = $this->getEnteredZipCode();
-		if ($enteredZipCode !== $GLOBALS['TYPO3_DB']->quoteStr(
+		if ($enteredZipCode != $GLOBALS['TYPO3_DB']->quoteStr(
 			$enteredZipCode, 'tx_contactslist_contacts')
 		) {
 			// If the string contains DB-dangerous strings, just doesn't process
 			// it because the prefixing could destroy some DB escape strings.
-			$enteredZipCode = '';
+			return '()';
 		}
-		$listOfPrefixes = '';
+
+		$prefixes = array();
 
 		for ($i = 1; $i <= strlen($enteredZipCode); $i++) {
-			if (!empty($listOfPrefixes)) {
-				$listOfPrefixes .= '|';
-			}
-
-			$listOfPrefixes .= substr($enteredZipCode, 0, $i);
+			$prefixes[] = substr($enteredZipCode, 0, $i);
 		}
 
-		return '('.$listOfPrefixes.')';
+		return '(' . implode('|', $prefixes) . ')';
 	}
 
 	/**

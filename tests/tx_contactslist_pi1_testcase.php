@@ -315,5 +315,138 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+
+	////////////////////////////////////
+	// Tests concerning the ZIP search
+	////////////////////////////////////
+
+	public function testListViewWithZipSearchHasMonkeyFunctionalityForZipCode() {
+		$this->fixture->piVars['zipcode'] = '31111';
+
+		$this->assertContains(
+			'31111',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithZipSearchHtmlSpecialcharsEnteredZipCode() {
+		$this->fixture->piVars['zipcode'] = 'a&b"';
+
+		$this->assertContains(
+			'a&amp;b&quot;',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithNoZipSearchShowsItemHavingEmptyZipPrefix() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->assertContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithNoZipSearchShowsItemHavingNonEmptyZipPrefix() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '3',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->assertContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithZipSearchShowsItemWithFirstDigitMatch() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '3',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->fixture->piVars['zipcode'] = '31111';
+
+		$this->assertContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithZipSearchHidesItemWithFirstDigitMismatch() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '4',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->fixture->piVars['zipcode'] = '31111';
+
+		$this->assertNotContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithZipSearchShowsItemWithFirstDigitMatchAndLeadingZero() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '0',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->fixture->piVars['zipcode'] = '01111';
+
+		$this->assertContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewWithZipSearchHidesItemWithFirstDigitMismatchAndLeadingZero() {
+		$this->testingFramework->createRecord(
+			self::table,
+			array(
+				'company' => 'company A',
+				'zipprefixes' => '4',
+				'country' => 'DEU',
+				'pid' => $this->systemFolderPid,
+			)
+		);
+
+		$this->fixture->piVars['zipcode'] = '01111';
+
+		$this->assertNotContains(
+			'company A',
+			$this->fixture->main('', array())
+		);
+	}
 }
 ?>
