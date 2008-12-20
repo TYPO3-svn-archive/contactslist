@@ -31,10 +31,10 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
-require_once(t3lib_extMgm::extPath('static_info_tables').'pi1/class.tx_staticinfotables_pi1.php');
+require_once(t3lib_extMgm::extPath('static_info_tables') . 'pi1/class.tx_staticinfotables_pi1.php');
 
 class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
