@@ -45,7 +45,7 @@ class tx_contactslist_pi1 extends tx_oelib_templatehelper {
 	/** the extension key */
 	public $extKey = 'contactslist';
 
-	public $pi_checkCHash = true;
+	public $pi_checkCHash = TRUE;
 
 	/** an instance of tx_staticinfotables_pi1 */
 	private $staticInfo = null;

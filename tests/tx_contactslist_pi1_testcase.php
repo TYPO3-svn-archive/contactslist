@@ -63,7 +63,7 @@ class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
 					'results_at_a_time' => 10,
 					'maxPages' => 5,
 					'orderBy' => 'company',
-					'descFlag' => false,
+					'descFlag' => FALSE,
 				)
 			)
 		);
