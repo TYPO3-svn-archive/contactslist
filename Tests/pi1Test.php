@@ -22,19 +22,18 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+
+require_once(t3lib_extMgm::extPath('contactslist') . 'pi1/class.tx_contactslist_pi1.php');
+
 /**
- * Testcase for the tx_contactslist_pi1 class in the 'contactslist' extension.
+ * Testcase for the tx_contactslist_pi1 class in the "contactslist" extension.
  *
  * @package TYPO3
  * @subpackage tx_contactslist
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-
-require_once(t3lib_extMgm::extPath('contactslist') . 'pi1/class.tx_contactslist_pi1.php');
-
-class tx_contactslist_pi1_testcase extends tx_phpunit_testcase {
+class tx_contactslist_pi1Test extends tx_phpunit_testcase {
 	/** the name of our main data table */
 	const table = 'tx_contactslist_contacts';
 
